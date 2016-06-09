@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/godbus/dbus"
 	"github.com/godbus/dbus/introspect"
-	"os"
+	//"os"
 	"fmt"
 )
 
@@ -12,7 +12,7 @@ type Device struct {
     XMLName string
 		Name string
 		Interfaces interface {}
-		Children struct {
+		Children []struct {
 			XMLName interface {}
 			Name string
 		}
@@ -28,13 +28,13 @@ func main() {
 		panic(err)
 	}
 	data, _ := json.MarshalIndent(node, "", "    ")
-	os.Stdout.Write(data)
-	//get_devices(data)
+	//os.Stdout.Write(data)
+	get_devices(data)
 }
 
 func get_devices(introspect_json []byte)  {
 	var device Device
 	//var parsed map[string]interface{}
 	json.Unmarshal(introspect_json, &device)
-	fmt.Printf(device.Children.Name)
+	fmt.Printf(device.Children[0].Name)
 }
