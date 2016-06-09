@@ -5,7 +5,18 @@ import (
 	"github.com/godbus/dbus"
 	"github.com/godbus/dbus/introspect"
 	"os"
+	"fmt"
 )
+
+type Device struct {
+    XMLName string
+		Name string
+		Interfaces interface {}
+		Children struct {
+			XMLName interface {}
+			Name string
+		}
+}
 
 func main() {
 	conn, err := dbus.SystemBus()
@@ -18,4 +29,12 @@ func main() {
 	}
 	data, _ := json.MarshalIndent(node, "", "    ")
 	os.Stdout.Write(data)
+	//get_devices(data)
+}
+
+func get_devices(introspect_json []byte)  {
+	var device Device
+	//var parsed map[string]interface{}
+	json.Unmarshal(introspect_json, &device)
+	fmt.Printf(device.Children.Name)
 }
