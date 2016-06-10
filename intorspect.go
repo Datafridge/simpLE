@@ -1,4 +1,4 @@
-package main
+package preperation
 
 import (
 	"encoding/json"
@@ -18,7 +18,7 @@ type Device struct {
 		}
 }
 
-func main() {
+func get_devices() {
 	conn, err := dbus.SystemBus()
 	if err != nil {
 		panic(err)
@@ -29,12 +29,8 @@ func main() {
 	}
 	data, _ := json.MarshalIndent(node, "", "    ")
 	//os.Stdout.Write(data)
-	get_devices(data)
-}
+	device := Device
 
-func get_devices(introspect_json []byte)  {
-	var device Device
-	//var parsed map[string]interface{}
-	json.Unmarshal(introspect_json, &device)
+	json.Unmarshal(data, &device)
 	fmt.Printf(device.Children[0].Name)
 }
