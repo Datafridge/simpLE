@@ -1,8 +1,7 @@
 package main
 
 import (
-  "github.com/mmbuw/simpLE/preperation"
-  "github.com/mmbuw/simpLE/advertisement"  
+  "github.com/mmbuw/simpLE"
 )
 
 func main()  {
