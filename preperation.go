@@ -1,4 +1,4 @@
-package preperation
+package simpLE
 
 import (
 	"encoding/json"
