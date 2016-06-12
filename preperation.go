@@ -18,7 +18,7 @@ type Device struct {
 		}
 }
 
-func get_devices() {
+func Get_devices() {
 	conn, err := dbus.SystemBus()
 	if err != nil {
 		panic(err)
