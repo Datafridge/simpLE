@@ -5,5 +5,5 @@ import (
 )
 
 func main()  {
-
+  simpLE.Get_devices()
 }
