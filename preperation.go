@@ -29,7 +29,7 @@ func get_devices() {
 	}
 	data, _ := json.MarshalIndent(node, "", "    ")
 	//os.Stdout.Write(data)
-	device := Device
+	var device Device
 
 	json.Unmarshal(data, &device)
 	fmt.Printf(device.Children[0].Name)
