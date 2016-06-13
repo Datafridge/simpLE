@@ -28,7 +28,6 @@ func Get_devices() string{
 		panic(err)
 	}
 	data, _ := json.MarshalIndent(node, "", "    ")
-	//os.Stdout.Write(data)
 	var device Device
 
 	json.Unmarshal(data, &device)
