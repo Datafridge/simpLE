@@ -2,8 +2,10 @@ package main
 
 import (
   "github.com/mmbuw/simpLE"
+  "fmt"
 )
 
 func main()  {
-  simpLE.Get_devices()
+  dev := simpLE.Get_devices()
+  fmt.Println(len(dev))
 }
