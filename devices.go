@@ -18,6 +18,7 @@ type Device struct {
 		}
 }
 
+// get all available devices
 func Get_devices() string{
 	conn, err := dbus.SystemBus()
 	if err != nil {

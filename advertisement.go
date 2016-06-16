@@ -8,6 +8,7 @@ import (
 	//"fmt"
 )
 
+// structure of advertising package
 type advertisement_package struct {
     ad_type string
     ad_serviceUUIDs []string
