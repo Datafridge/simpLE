@@ -15,6 +15,7 @@ var DBUS_PROP_IFACE = "org.freedesktop.DBus.Properties"
 
 var LE_ADVERTISEMENT_IFACE = "org.bluez.LEAdvertisement1"
 
+
 type advertisement_package struct {
     ad_path string
     ad_bus string

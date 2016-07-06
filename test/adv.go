@@ -3,6 +3,7 @@ package main
 import (
 	//"encoding/json"
 	"github.com/godbus/dbus"
+	"github.com/godbus/dbus/prop"
 	//"github.com/godbus/dbus/introspect"
 	//"os"
 	//"fmt"
@@ -16,32 +17,56 @@ var DBUS_PROP_IFACE = "org.freedesktop.DBus.Properties"
 var LE_ADVERTISEMENT_IFACE = "org.bluez.LEAdvertisement1"
 
 type advertisement_package struct {
+    ad_path string
+    ad_bus string
     ad_type string
     ad_serviceUUIDs []string
-    manufacturerData map[string]string
-    solicitUUIDs []string
-    serviceData map[string]string
-    includeTxPower bool
+    ad_manufacturerData map[uint8][]uint8
+    ad_solicitUUIDs []string
+    ad_serviceData map[string][]uint8
+    ad_includeTxPower bool
+    // DBUS Service Object
+}
+
+func (adv *advertisement_package) add_serviceUUIDs(uuid string) {
+    adv.ad_serviceUUIDs = append(adv.ad_serviceUUIDs,uuid)
+}
+
+func (adv *advertisement_package) add_solicitUUIDs(uuid string) {
+    adv.ad_solicitUUIDs = append(adv.ad_solicitUUIDs,uuid)
+}
+
+func (adv *advertisement_package) add_manufacturerData(manuf_code uint8, data []uint8) {
+    adv.ad_manufacturerData[manuf_code] = data
+}
+
+func (adv *advertisement_package) add_serviceData(uuid string, data []uint8) {
+    adv.ad_serviceData[uuid] = data
 }
 
 func main() {
-  bus, err := dbus.SystemBus()
+	//connect to systembus
+	bus, err := dbus.SystemBus()
 	if err != nil {
 		panic(err)
 	}
 
-  //device := new(dbus.ObjectPath)
-  //device = *dbus.ObjectPath("/org/bluez/hci1")
-  adapter := "/org/bluez/hci1"
+	//get adapter
+	adapter := dbus.ObjectPath("/org/bluez/hci0")
 
-  adv := new(advertisement_package)
+	//get adapter Properties
+	adapter_pros := prop.New(bus,bus.Object(BLUEZ_SERVICE_NAME,adapter))
+
+
+
+	adv := new(advertisement_package)
 
 	adv.ad_type = "broadcast"
 	adv.ad_serviceUUIDs = []string{"0x1800"}
 	adv.manufacturerData = map[string]string{"​0x026B":"node"}
-  adv.solicitUUIDs = make([]string,0)
-  adv.serviceData = map[string]string{"0x1800":"test"}
-  adv.includeTxPower = false
+	adv.solicitUUIDs = make([]string,0)
+	adv.serviceData = map[string]string{"0x1800":"test"}
+	adv.includeTxPower = false
 
 
 }
