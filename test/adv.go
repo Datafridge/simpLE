@@ -3,10 +3,10 @@ package main
 import (
 	//"encoding/json"
 	"github.com/godbus/dbus"
-	"github.com/godbus/dbus/prop"
+	//"github.com/godbus/dbus/prop"
 	//"github.com/godbus/dbus/introspect"
 	//"os"
-	//"fmt"
+	"fmt"
 )
 
 var BLUEZ_SERVICE_NAME = "org.bluez"
@@ -21,7 +21,7 @@ type advertisement_package struct {
     ad_bus string
     ad_type string
     ad_serviceUUIDs []string
-    ad_manufacturerData map[uint8][]uint8
+    ad_manufacturerData map[uint16][]uint16
     ad_solicitUUIDs []string
     ad_serviceData map[string][]uint8
     ad_includeTxPower bool
@@ -36,7 +36,7 @@ func (adv *advertisement_package) add_solicitUUIDs(uuid string) {
     adv.ad_solicitUUIDs = append(adv.ad_solicitUUIDs,uuid)
 }
 
-func (adv *advertisement_package) add_manufacturerData(manuf_code uint8, data []uint8) {
+func (adv *advertisement_package) add_manufacturerData(manuf_code uint16, data []uint16) {
     adv.ad_manufacturerData[manuf_code] = data
 }
 
@@ -52,21 +52,48 @@ func main() {
 	}
 
 	//get adapter
-	adapter := dbus.ObjectPath("/org/bluez/hci0")
+	adapter_path := dbus.ObjectPath("/org/bluez/hci0")
+	adapter := bus.Object(BLUEZ_SERVICE_NAME,adapter_path)
+	fmt.Println(adapter.Path())
+	fmt.Println(adapter.Destination())
+	address,err := adapter.GetProperty("org.bluez.Adapter1.Alias")
+	fmt.Printf("value: %v, err: %v",address.String(),err)
+
+
+	/*props := map[string]map[string]*prop.Prop{
+		"org.bluez.Adapter1": {
+			"SomeInt": {
+				int32(0),
+				true,
+				prop.EmitTrue,
+				func(c *prop.Change) *dbus.Error {
+					fmt.Println(c.Name, "changed to", c.Value)
+					return nil
+				},
+			},
+		},
+	}*/
+
+
+	//fmt.Println(props)
 
 	//get adapter Properties
-	adapter_pros := prop.New(bus,bus.Object(BLUEZ_SERVICE_NAME,adapter))
+	//props := prop.New(bus,bus.Object(BLUEZ_SERVICE_NAME,adapter),props)
 
+	//props := new(prop.Properties)
+	//m,_ := props.GetAll("/org/bluez/hci0")
+
+	//fmt.Println(m["Address"].String())
 
 
 	adv := new(advertisement_package)
 
 	adv.ad_type = "broadcast"
 	adv.ad_serviceUUIDs = []string{"0x1800"}
-	adv.manufacturerData = map[string]string{"​0x026B":"node"}
-	adv.solicitUUIDs = make([]string,0)
-	adv.serviceData = map[string]string{"0x1800":"test"}
-	adv.includeTxPower = false
+	adv.ad_manufacturerData = map[uint16][]uint16{0x026B:{0xFFFF}}
+	adv.ad_solicitUUIDs = make([]string,0)
+	adv.ad_serviceData = map[string][]uint8{"0x1800":{0x01}}
+	adv.ad_includeTxPower = false
 
 
 }
