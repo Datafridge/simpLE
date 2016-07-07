@@ -57,8 +57,14 @@ func main() {
 	fmt.Println(adapter.Path())
 	fmt.Println(adapter.Destination())
 	address,err := adapter.GetProperty("org.bluez.Adapter1.Alias")
-	fmt.Printf("value: %v, err: %v",address.String(),err)
+	fmt.Printf("value: %v, err: %v \n",address.String(),err)
+	fmt.Printf("value: %T, err: %v \n \n",address,err)
 
+	var result interface{}
+	powered1 := true
+	err = adapter.Call("org.freedesktop.DBus.Properties.Set", 0, "org.bluez.Adapter1", "Powered", dbus.MakeVariant(powered1)).Store(&result)
+	fmt.Printf("result value: %v, type: %T \n",result,result)
+	fmt.Printf("error  value: %v, type: %T \n",err,err)
 
 	/*props := map[string]map[string]*prop.Prop{
 		"org.bluez.Adapter1": {
@@ -79,11 +85,6 @@ func main() {
 
 	//get adapter Properties
 	//props := prop.New(bus,bus.Object(BLUEZ_SERVICE_NAME,adapter),props)
-
-	//props := new(prop.Properties)
-	//m,_ := props.GetAll("/org/bluez/hci0")
-
-	//fmt.Println(m["Address"].String())
 
 
 	adv := new(advertisement_package)
