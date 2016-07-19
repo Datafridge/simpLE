@@ -83,7 +83,7 @@ func main() {
 
 	adv := new(advertisement_package)
 
-	adv.ad_type = "peripheral"
+	adv.ad_type = "broadcast"
 	adv.ad_serviceUUIDs = []string{"180D","180F"}
 	adv.ad_manufacturerData = map[uint16][]uint8{0xFFFF:{0x00, 0x01, 0x02, 0x03, 0x04}}
 	//adv.ad_solicitUUIDs = make([]string,0)
@@ -144,7 +144,7 @@ func main() {
 					return nil
 				},
 			},
-			"ServiceData": {
+			/*"ServiceData": {
 				map[string][]uint8(adv.ad_serviceData),
 				true,
 				prop.EmitTrue,
@@ -152,7 +152,7 @@ func main() {
 					fmt.Println(c.Name, "changed to", c.Value)
 					return nil
 				},
-			},
+			},*/
 			"IncludeTxPower": {
 				bool(adv.ad_includeTxPower),
 				true,
@@ -189,7 +189,7 @@ func main() {
 
 	var dic map[string]dbus.Variant
 	err = adapter.Call("org.bluez.LEAdvertisingManager1.RegisterAdvertisement", 0, advertisement_path, dic).Store(&result)
-	//fmt.Printf("result: value: %T, err: %v \n \n",result,result)
+	fmt.Printf("result: value: %T, err: %v \n \n",result,result)
 	fmt.Printf("err: value: %T, err: %v \n \n",err,err)
 
 	//value1,err := advertisement1.GetProperty("org.bluez.LEAdvertisement1.Type")
