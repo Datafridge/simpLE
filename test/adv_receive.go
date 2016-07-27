@@ -71,7 +71,7 @@ func main() {
 
 	adv.ad_type = "peripheral"
 	adv.ad_serviceUUIDs = []string{"180D","180F"}
-	adv.ad_manufacturerData = map[uint16][]uint8{0xFFFF:{0x00, 0x01, 0x02, 0x03, 0x04}}
+	//adv.ad_manufacturerData = map[uint16][]uint8{0xFFFF:{0xFF, 0x01, 0x02, 0x03, 0x04}}
 	//adv.ad_solicitUUIDs = make([]string,0)
 	adv.ad_serviceData = map[string][]uint8{"9999":{0x00, 0x01, 0x02, 0x03, 0x04}}
 	adv.ad_includeTxPower = true

@@ -1,0 +1,1 @@
+{"Transport": __import__('gi.repository.GLib', globals(), locals(), ['Variant']).Variant("s", "le")}
