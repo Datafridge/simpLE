@@ -29,9 +29,12 @@ func main() {
 	conn.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
 		"type='signal',path='/',interface='org.freedesktop.DBus.ObjectManager',sender='org.bluez'")
 
+	conn.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
+		"type='signal',path='/',interface='org.freedesktop.DBus.Properties',sender='org.bluez'")
+
 	c := make(chan *dbus.Signal, 10)
 	conn.Signal(c)
 	for v := range c {
-		fmt.Println(v)
+		fmt.Printf("Sender: %v\nPath: %v\nName: %v\nBody:%v\n\n",v.Sender,v.Path,v.Name,v.Body[0])
 	}
 }

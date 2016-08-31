@@ -36,4 +36,4 @@ def create_request(from_date,to_date,tag):
     return(r.json())
 
 if __name__ == "__main__":
-    main("bluetooth")
+    main("ble")

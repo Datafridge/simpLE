@@ -28,4 +28,4 @@ def plot(x,y):
     plt.show()
 
 if __name__ == "__main__":
-    main("bluetooth")
+    main("bluetooth-lowenergy")
