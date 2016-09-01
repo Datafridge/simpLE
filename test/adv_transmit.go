@@ -1,11 +1,9 @@
 package main
 
 import (
-	//"encoding/json"
 	"github.com/godbus/dbus"
 	"github.com/godbus/dbus/prop"
 	"github.com/godbus/dbus/introspect"
-	//"os"
 	"time"
 	"fmt"
 )
