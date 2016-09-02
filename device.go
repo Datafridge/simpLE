@@ -9,6 +9,7 @@ type device struct {
 }
 
 func (d *device) dbusobject()  dbus.BusObject{
+
     bus, err := dbus.SystemBus()
 	if err != nil {
 		panic(err)

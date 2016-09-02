@@ -7,8 +7,10 @@ import (
     "fmt"
 )
 
+var result interface{}
+
 type advertisement struct {
-    ad_path string
+    ad_path dbus.ObjectPath
     ad_bus string
     ad_type string
     ad_serviceUUIDs []string
@@ -17,6 +19,8 @@ type advertisement struct {
     ad_serviceData map[string][]uint8
     ad_includeTxPower bool
 }
+
+type foo string
 
 func (adv *advertisement) add_serviceUUIDs(uuid string) {
     adv.ad_serviceUUIDs = append(adv.ad_serviceUUIDs,uuid)
@@ -34,7 +38,16 @@ func (adv *advertisement) add_serviceData(uuid string, data []uint8) {
     adv.ad_serviceData[uuid] = data
 }
 
-func (adv *advertisement) register()  {
+func (adv *advertisement) register(adapter dbus.BusObject, name string)  {
+
+    bus, err := dbus.SystemBus()
+    if err != nil {
+        panic(err)
+    }
+
+    f := string("Bar")
+    adv.ad_path = dbus.ObjectPath("/org/bluez/simpLE/"+name)
+
     propsSpec := map[string]map[string]*prop.Prop{
         "org.bluez.LEAdvertisement1": {
             "Type": {
@@ -109,6 +122,13 @@ func (adv *advertisement) register()  {
 		},
 	}
 
-    
+    bus.Export(introspect.NewIntrospectable(n), "/org/bluez/simpLE/advertisement1","org.freedesktop.DBus.Introspectable")
 
+    var dic map[string]dbus.Variant
+	err = adapter.Call("org.bluez.LEAdvertisingManager1.RegisterAdvertisement", 0, adv.ad_path, dic).Store(&result)
+}
+
+func (f foo) Foo() (string, *dbus.Error) {
+    fmt.Println(f)
+    return string(f), nil
 }

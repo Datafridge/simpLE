@@ -158,7 +158,7 @@ func main() {
 
 	var dic map[string]dbus.Variant
 	err = adapter.Call("org.bluez.LEAdvertisingManager1.RegisterAdvertisement", 0, advertisement_path, dic).Store(&result)
-	time.Sleep(2 * time.Minute)
+	time.Sleep(1 * time.Minute)
 	fmt.Printf("result: value: %T, err: %v \n \n",result,result)
 	fmt.Printf("err: value: %T, err: %v \n \n",err,err)
 }
