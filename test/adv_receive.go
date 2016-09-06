@@ -10,13 +10,6 @@ import (
 	"fmt"
 )
 
-var BLUEZ_SERVICE_NAME = "org.bluez"
-var LE_ADVERTISING_MANAGER_IFACE = "org.bluez.LEAdvertisingManager1"
-var DBUS_OM_IFACE = "org.freedesktop.DBus.ObjectManager"
-var DBUS_PROP_IFACE = "org.freedesktop.DBus.Properties"
-
-var LE_ADVERTISEMENT_IFACE = "org.bluez.LEAdvertisement1"
-
 type foo string
 
 func main() {
@@ -25,6 +18,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	adapter_path := dbus.ObjectPath("/org/bluez/hci0")
+	adapter := conn.Object("org.bluez",adapter_path)
+
+	var result interface{}
+	err = adapter.Call("org.bluez.Adapter1.StartDiscovery", 0).Store(&result)
 
 	conn.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
 		"type='signal',path='/',interface='org.freedesktop.DBus.ObjectManager',sender='org.bluez'")

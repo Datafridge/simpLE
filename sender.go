@@ -2,7 +2,7 @@ package simpLE
 
 import (
     "github.com/godbus/dbus"
-    "time"
+    //"time"
     //"errors"
     //"fmt"
 )
@@ -10,6 +10,7 @@ import (
 type Sender struct {
     dev *device
     adv *advertisement
+    active bool
 }
 
 func (s *Sender) device(string error) {
@@ -32,9 +33,10 @@ func (s *Sender) Start() error {
     var dic map[string]dbus.Variant
 	err := dev.dbusobject().Call("org.bluez.LEAdvertisingManager1.RegisterAdvertisement", 0, adv.ad_path, dic).Store(&result)
     if err != nil {
-        time.Sleep(2 * time.Minute)
+        s.active = true
     }
 
+    for s.active == true{}
 
     return nil
 }

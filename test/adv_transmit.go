@@ -68,11 +68,11 @@ func main() {
 	adv := new(advertisement_package)
 
 	adv.ad_type = "peripheral"
-	adv.ad_serviceUUIDs = []string{"180D","180F"}
+	//adv.ad_serviceUUIDs = []string{"180D","180F"}
 	//adv.ad_manufacturerData = map[uint16][]uint8{0xFFFF:{0xFF, 0x01, 0x02, 0x03, 0x04}}
 	//adv.ad_solicitUUIDs = make([]string,0)
-	adv.ad_serviceData = map[string][]uint8{"9999":{0x00, 0x01, 0x02, 0x03, 0x04}}
-	adv.ad_includeTxPower = true
+	adv.ad_serviceData = map[string][]uint8{"9999":{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F}}
+	adv.ad_includeTxPower = false
 
 	//TODO: request name before add new object
 

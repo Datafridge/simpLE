@@ -5,6 +5,9 @@ import (
 )
 
 func main()  {
-  var sender simpLE.Sender
-  sender.Start()
+  //var sender simpLE.Sender
+  //sender.Start()
+
+  var scanner simpLE.Scanner
+  scanner.Start()
 }
