@@ -10,14 +10,13 @@ import (
 var result interface{}
 
 type advertisement struct {
-    ad_path dbus.ObjectPath
-    ad_bus string
-    ad_type string
-    ad_serviceUUIDs []string
+    ad_path             dbus.ObjectPath
+    ad_type             string
+    ad_serviceUUIDs     []string
     ad_manufacturerData map[uint16][]uint8
-    ad_solicitUUIDs []string
-    ad_serviceData map[string][]uint8
-    ad_includeTxPower bool
+    ad_solicitUUIDs     []string
+    ad_serviceData      map[string][]uint8
+    ad_includeTxPower   bool
 }
 
 type foo string
