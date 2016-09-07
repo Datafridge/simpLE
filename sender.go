@@ -17,6 +17,7 @@ func (s *Sender) device(string error) {
 
 }
 
+//TODO einfaches übergeben von Daten ermöglichen
 func (s *Sender) Start() error {
     var dev device
     var adv advertisement

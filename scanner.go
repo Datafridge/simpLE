@@ -6,6 +6,7 @@ import (
     "fmt"
     //"reflect"
 )
+//TODO callback einbauen
 
 type Scanner struct {
     dev *device
@@ -41,7 +42,6 @@ func (s *Scanner) Start() error {
             fmt.Printf("sender is bluez \n")
             switch v.Name {
             case "org.freedesktop.DBus.ObjectManager.InterfacesAdded":
-                //TODO interface hinzufügen
                 fmt.Printf("interface was added \n")
 
                 index := string(v.Body[0].(dbus.ObjectPath))
@@ -50,9 +50,107 @@ func (s *Scanner) Start() error {
                 s.res[index] = remote_device{}
                 rdt := s.res[index]
                 rd  := &rdt
-                rd.set_path(v.Body[0].(dbus.ObjectPath))
                 fmt.Printf("new remote_device created\n")
-                fmt.Printf("path type: %T value: %v \n",string(rd.get_path()),string(rd.get_path()))
+                rd.set_path(v.Body[0].(dbus.ObjectPath))
+
+                objects1 := v.Body[1].(map[string]map[string]dbus.Variant)
+                objects := objects1["org.bluez.Device1"]
+
+                if objects["UUIDs"].Value() != nil {
+                    rd.set_uuids(objects["UUIDs"].Value().([]string))
+                }
+
+                if objects["Address"].Value() != nil {
+                    rd.set_address(objects["Address"].Value().(string))
+                }
+
+                if objects["Address"].Value() != nil {
+                    rd.set_alias(objects["Alias"].Value().(string))
+                }
+
+                if objects["Modalias"].Value() != nil {
+                    rd.set_modalias(objects["Modalias"].Value().(string))
+                }
+
+                if objects["Name"].Value() != nil {
+                    rd.set_name(objects["Name"].Value().(string))
+                }
+
+                if objects["Class"].Value() != nil {
+                    rd.set_class(objects["Class"].Value().(uint32))
+                }
+
+                if objects["Blocked"].Value() != nil {
+                    rd.set_blocked(objects["Blocked"].Value().(bool))
+                }
+
+                if objects["Connected"].Value() != nil {
+                    rd.set_connected(objects["Connected"].Value().(bool))
+                }
+
+                if objects["LegacyPairing"].Value() != nil {
+                    rd.set_legacyPairing(objects["LegacyPairing"].Value().(bool))
+                }
+
+                if objects["Paired"].Value() != nil {
+                    rd.set_paired(objects["Paired"].Value().(bool))
+                }
+
+                if objects["ServicesResolved"].Value() != nil {
+                    rd.set_servicesResolved(objects["ServicesResolved"].Value().(bool))
+                }
+
+                if objects["Trusted"].Value() != nil {
+                    rd.set_trusted(objects["Trusted"].Value().(bool))
+                }
+
+                if objects["ServiceData"].Value() != nil {
+                    a := objects["ServiceData"].Value().(map[string]dbus.Variant)
+                    b := make(map[string][]uint8)
+                    for key, value := range a {
+                        b[key]=value.Value().([]uint8)
+                    }
+                    rd.set_serviceData(b)
+                }
+
+                if objects["ManufacturerData"].Value() != nil {
+                    a := objects["ManufacturerData"].Value().(map[uint16]dbus.Variant)
+                    b := make(map[uint16][]uint8)
+                    for key, value := range a {
+                        b[key]=value.Value().([]uint8)
+                    }
+                    rd.set_manufacturerData(b)
+                }
+
+                if objects["RSSI"].Value() != nil {
+                    rd.set_rssi(objects["RSSI"].Value().(int16))
+                }
+
+                if objects["TxPower"].Value() != nil {
+                    rd.set_txpower(objects["TxPower"].Value().(int16))
+                }
+
+                if objects["Adapter"].Value() != nil {
+                    rd.set_adapter(objects["Adapter"].Value().(dbus.ObjectPath))
+                }
+
+                if objects["Icon"].Value() != nil {
+                    rd.set_icon(objects["Icon"].Value().(string))
+                }
+
+                if objects["Appearance"].Value() != nil {
+                    rd.set_appearance(objects["Appearance"].Value().(uint16))
+                }
+
+
+                a := objects["ServiceData"].Value().(map[string]dbus.Variant)
+                b := make(map[string][]uint8)
+                for key, value := range a {
+                    b[key]=value.Value().([]uint8)
+                }
+
+                fmt.Printf("Typ: %T\nValue:%v\n\n",b,b)
+
 
             case "org.freedesktop.DBus.ObjectManager.InterfacesRemoved":
                 //TODO interface aus Ergebnissen löschen

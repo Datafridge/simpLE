@@ -39,7 +39,7 @@ type remote_device struct {
     manufacturerData map[uint16][]uint8
     rssi             int16
     txpower          int16
-    adapter          string
+    adapter          dbus.ObjectPath
     icon             string
     appearance       uint16
 }
@@ -260,11 +260,11 @@ func (d *remote_device) get_txpower() int16 {
 }
 
 
-func (d *remote_device) set_adapter(i string) {
+func (d *remote_device) set_adapter(i dbus.ObjectPath) {
     d.adapter = i
 }
 
-func (d *remote_device) get_adapter() string {
+func (d *remote_device) get_adapter() dbus.ObjectPath {
     return d.adapter
 }
 
