@@ -14,7 +14,8 @@ type Scanner struct {
     f   func()
 }
 
-func (s *Scanner) Start() error {
+func (s *Scanner) Start(f1 func()) error {
+    s.f = f1
     s.res = make(map[string]remote_device)
 
     bus, err := dbus.SystemBus()
@@ -37,6 +38,7 @@ func (s *Scanner) Start() error {
 
 		fmt.Printf("Sender: %v\nPath: %v\nName: %T\nBody:%v\n\n",v.Sender,v.Path,v.Name,v.Body[0])
 
+        s.f()
 
         if v.Sender == ":1.3" {
             fmt.Printf("sender is bluez \n")
@@ -162,12 +164,6 @@ func (s *Scanner) Start() error {
     return nil
 }
 
-func (s *Scanner) save(sig *dbus.Signal) error {
-    // check if the sender is bluez
-    if sig.Sender == ":1.3" {
+func GetMa()  {
 
-    }
-
-
-    return nil
 }
