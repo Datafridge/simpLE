@@ -2,9 +2,7 @@ package simpLE
 
 import (
     "github.com/godbus/dbus"
-    //"errors"
-    "fmt"
-    //"reflect"
+    //"fmt"
 )
 //TODO callback einbauen
 
@@ -36,23 +34,23 @@ func (s *Scanner) Start(f1 func()) error {
 	bus.Signal(c)
 	for v := range c {
 
-		fmt.Printf("Sender: %v\nPath: %v\nName: %T\nBody:%v\n\n",v.Sender,v.Path,v.Name,v.Body[0])
+		//fmt.Printf("Sender: %v\nPath: %v\nName: %T\nBody:%v\n\n",v.Sender,v.Path,v.Name,v.Body[0])
 
-        s.f()
 
-        if v.Sender == ":1.3" {
-            fmt.Printf("sender is bluez \n")
+
+        if v.Sender == ":1.7" {
+            //fmt.Printf("sender is bluez \n")
             switch v.Name {
             case "org.freedesktop.DBus.ObjectManager.InterfacesAdded":
-                fmt.Printf("interface was added \n")
+                //fmt.Printf("interface was added \n")
 
                 index := string(v.Body[0].(dbus.ObjectPath))
-                fmt.Printf("index type: %T \n", index)
+                //fmt.Printf("index type: %T \n", index)
 
                 s.res[index] = remote_device{}
                 rdt := s.res[index]
                 rd  := &rdt
-                fmt.Printf("new remote_device created\n")
+                //fmt.Printf("new remote_device created\n")
                 rd.set_path(v.Body[0].(dbus.ObjectPath))
 
                 objects1 := v.Body[1].(map[string]map[string]dbus.Variant)
@@ -144,26 +142,32 @@ func (s *Scanner) Start(f1 func()) error {
                     rd.set_appearance(objects["Appearance"].Value().(uint16))
                 }
 
-
-                a := objects["ServiceData"].Value().(map[string]dbus.Variant)
-                b := make(map[string][]uint8)
-                for key, value := range a {
-                    b[key]=value.Value().([]uint8)
-                }
-
-                fmt.Printf("Typ: %T\nValue:%v\n\n",b,b)
-
+                s.res[index] = *rd
 
             case "org.freedesktop.DBus.ObjectManager.InterfacesRemoved":
-                //TODO interface aus Ergebnissen löschen
-                fmt.Printf("interface was removed \n")
+                delete(s.res,string(v.Body[0].(dbus.ObjectPath)))
+                //fmt.Printf("interface was removed \n")
             }
-        }
+            //fmt.Printf("Size of Devices: %v \n", len(s.res))
 
+            s.f()
+        }
+    //fmt.Printf("Size of Devices: %v \n", len(s.res))
+    //fmt.Print("%v",s.res)
 	}
+
     return nil
 }
 
-func GetMa()  {
-
+func (s *Scanner) Get_advertisements() map[string]map[string]interface{} {
+    results := make(map[string]map[string]interface{})
+    for _, value := range s.res {
+        results[value.Get_address()] = make(map[string]interface{})
+        results[value.Get_address()]["ManufacturerData"] = value.Get_manufacturerData()
+        results[value.Get_address()]["Name"] = value.Get_name()
+        //fmt.Printf("Address: %v\n",value.Get_address())
+        //fmt.Printf("Name: %v\n",value.Get_name())
+        //fmt.Printf("key type: %T \nvalue value: %v, type: %T \n \n",results,value.Get_manufacturerData(),value.Get_manufacturerData())
+    }
+    return results
 }

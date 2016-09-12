@@ -1,6 +1,7 @@
 package simpLE
 
 import (
+    //"fmt"
     "encoding/json"
 	"github.com/godbus/dbus"
 	"github.com/godbus/dbus/introspect"
@@ -66,7 +67,7 @@ func (d *device) set_address(i string) {
     d.address = i
 }
 
-func (d *device) get_address() string {
+func (d *device) Get_address() string {
     return d.address
 }
 
@@ -93,7 +94,7 @@ func (d *device) set_name(i string) {
     d.name = i
 }
 
-func (d *device) get_name() string {
+func (d *device) Get_name() string {
     return d.name
 }
 
@@ -237,7 +238,7 @@ func (d *remote_device) set_manufacturerData(i map[uint16][]uint8) {
     d.manufacturerData = i
 }
 
-func (d *remote_device) get_manufacturerData() map[uint16][]uint8 {
+func (d *remote_device) Get_manufacturerData() map[uint16][]uint8 {
     return d.manufacturerData
 }
 
