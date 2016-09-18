@@ -4,7 +4,6 @@ import (
     "github.com/godbus/dbus"
     //"fmt"
 )
-//TODO callback einbauen
 
 type Scanner struct {
     dev *device
@@ -38,7 +37,7 @@ func (s *Scanner) Start(f1 func()) error {
 
 
 
-        if v.Sender == ":1.7" {
+        if v.Sender == ":1.4" {
             //fmt.Printf("sender is bluez \n")
             switch v.Name {
             case "org.freedesktop.DBus.ObjectManager.InterfacesAdded":
