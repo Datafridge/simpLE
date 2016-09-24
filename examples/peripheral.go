@@ -16,16 +16,9 @@ func main()  {
 }
 
 func test_callback() {
-    results := scanner.Get_advertisements()
-    //scanner.Get_advertisements()
+    results := scanner.Get_last_advertisements()
 
-    for key, _ := range results {
-        fmt.Printf("Address: %v\n",key)
-        fmt.Printf("Name: %v\n",results[key]["Name"])
-        fmt.Printf("ManufacturerData: %v \n\n",results[key]["ManufacturerData"].(map[uint16][]uint8)[65535])
-    }
-
-
-    //fmt.Printf("%v",results["ManufacturerData"])
-    //fmt.Printf("--------------------------------------------------------------")*/
+    fmt.Printf("Address: %v\n",results["Address"])
+    fmt.Printf("Name: %v\n",results["Name"])
+    fmt.Printf("ManufacturerData: %v \n\n",results["ManufacturerData"].(map[uint16][]uint8)[65535])
 }

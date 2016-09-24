@@ -6,9 +6,10 @@ import (
 )
 
 type Scanner struct {
-    dev *device
-    res map[string]remote_device
-    f   func()
+    dev  *device
+    res  map[string]remote_device
+    f    func()
+    last remote_device
 }
 
 func (s *Scanner) Start(f1 func()) error {
@@ -37,7 +38,7 @@ func (s *Scanner) Start(f1 func()) error {
 
 
 
-        if v.Sender == ":1.4" {
+        if v.Sender == ":1.3" {
             //fmt.Printf("sender is bluez \n")
             switch v.Name {
             case "org.freedesktop.DBus.ObjectManager.InterfacesAdded":
@@ -142,6 +143,7 @@ func (s *Scanner) Start(f1 func()) error {
                 }
 
                 s.res[index] = *rd
+                s.last = *rd
 
             case "org.freedesktop.DBus.ObjectManager.InterfacesRemoved":
                 delete(s.res,string(v.Body[0].(dbus.ObjectPath)))
@@ -168,5 +170,17 @@ func (s *Scanner) Get_advertisements() map[string]map[string]interface{} {
         //fmt.Printf("Name: %v\n",value.Get_name())
         //fmt.Printf("key type: %T \nvalue value: %v, type: %T \n \n",results,value.Get_manufacturerData(),value.Get_manufacturerData())
     }
+    return results
+}
+
+func (s *Scanner) Get_last_advertisements() map[string]interface{} {
+    results := make(map[string]interface{})
+        results["Address"] = s.last.Get_address()
+        results["ManufacturerData"] = s.last.Get_manufacturerData()
+        results["Name"] = s.last.Get_name()
+        //fmt.Printf("Address: %v\n",value.Get_address())
+        //fmt.Printf("Name: %v\n",value.Get_name())
+        //fmt.Printf("key type: %T \nvalue value: %v, type: %T \n \n",results,value.Get_manufacturerData(),value.Get_manufacturerData())
+
     return results
 }
