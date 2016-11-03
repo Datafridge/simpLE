@@ -38,7 +38,7 @@ func (s *Scanner) Start(f1 func()) error {
 
 
 
-        if v.Sender == ":1.3" {
+        if v.Sender == ":1.7" {
             //fmt.Printf("sender is bluez \n")
             switch v.Name {
             case "org.freedesktop.DBus.ObjectManager.InterfacesAdded":

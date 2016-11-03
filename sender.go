@@ -2,9 +2,6 @@ package simpLE
 
 import (
     "github.com/godbus/dbus"
-    //"time"
-    //"errors"
-    //"fmt"
 )
 
 type Sender struct {
@@ -17,17 +14,12 @@ func (s *Sender) device(string error) {
 
 }
 
-//TODO einfaches übergeben von Daten ermöglichen
-func (s *Sender) Start() error {
+func (s *Sender) Start(data string) error {
     var dev device
     var adv advertisement
 
     adv.ad_type = "peripheral"
-	adv.ad_serviceUUIDs = []string{"180D","180F"}
-	//adv.ad_manufacturerData = map[uint16][]uint8{0xFFFF:{0xFF, 0x01, 0x02, 0x03, 0x04}}
-	//adv.ad_solicitUUIDs = make([]string,0)
-	adv.ad_serviceData = map[string][]uint8{"9999":{0x00, 0x01, 0x02, 0x03, 0x04}}
-	adv.ad_includeTxPower = true
+	adv.ad_manufacturerData = map[uint16][]uint8{0xFFFF:[]byte(data)}
 
     adv.register(dev.dbusobject(),"advertisement1")
 
