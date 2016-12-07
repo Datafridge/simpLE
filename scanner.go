@@ -39,18 +39,14 @@ func (s *Scanner) Start(f1 func()) error {
 
 
         if v.Sender == ":1.7" {
-            //fmt.Printf("sender is bluez \n")
+
             switch v.Name {
             case "org.freedesktop.DBus.ObjectManager.InterfacesAdded":
-                //fmt.Printf("interface was added \n")
 
                 index := string(v.Body[0].(dbus.ObjectPath))
-                //fmt.Printf("index type: %T \n", index)
-
                 s.res[index] = remote_device{}
                 rdt := s.res[index]
                 rd  := &rdt
-                //fmt.Printf("new remote_device created\n")
                 rd.set_path(v.Body[0].(dbus.ObjectPath))
 
                 objects1 := v.Body[1].(map[string]map[string]dbus.Variant)
@@ -147,14 +143,11 @@ func (s *Scanner) Start(f1 func()) error {
 
             case "org.freedesktop.DBus.ObjectManager.InterfacesRemoved":
                 delete(s.res,string(v.Body[0].(dbus.ObjectPath)))
-                //fmt.Printf("interface was removed \n")
             }
-            //fmt.Printf("Size of Devices: %v \n", len(s.res))
 
+            // execute callback function
             s.f()
         }
-    //fmt.Printf("Size of Devices: %v \n", len(s.res))
-    //fmt.Print("%v",s.res)
 	}
 
     return nil
@@ -166,9 +159,6 @@ func (s *Scanner) Get_advertisements() map[string]map[string]interface{} {
         results[value.Get_address()] = make(map[string]interface{})
         results[value.Get_address()]["ManufacturerData"] = value.Get_manufacturerData()
         results[value.Get_address()]["Name"] = value.Get_name()
-        //fmt.Printf("Address: %v\n",value.Get_address())
-        //fmt.Printf("Name: %v\n",value.Get_name())
-        //fmt.Printf("key type: %T \nvalue value: %v, type: %T \n \n",results,value.Get_manufacturerData(),value.Get_manufacturerData())
     }
     return results
 }
@@ -178,9 +168,6 @@ func (s *Scanner) Get_last_advertisements() map[string]interface{} {
         results["Address"] = s.last.Get_address()
         results["ManufacturerData"] = s.last.Get_manufacturerData()
         results["Name"] = s.last.Get_name()
-        //fmt.Printf("Address: %v\n",value.Get_address())
-        //fmt.Printf("Name: %v\n",value.Get_name())
-        //fmt.Printf("key type: %T \nvalue value: %v, type: %T \n \n",results,value.Get_manufacturerData(),value.Get_manufacturerData())
 
     return results
 }

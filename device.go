@@ -45,25 +45,33 @@ type remote_device struct {
     appearance       uint16
 }
 
-// Path - GET
+func (d *device) set_path(i dbus.ObjectPath) {
+    d.path = i
+}
+
 func (d *device) get_path() dbus.ObjectPath {
     return d.path
 }
 
 
-// UUIDs - GET
+func (d *device) set_uuids(i []string) {
+    d.uuids = i
+}
+
 func (d *device) get_uuids() []string {
     return d.uuids
 }
 
 
-// Address - GET
+func (d *device) set_address(i string) {
+    d.address = i
+}
+
 func (d *device) Get_address() string {
     return d.address
 }
 
 
-// Alias - SET/GET
 func (d *device) set_alias(i string) {
     d.alias = i
 }
@@ -73,31 +81,42 @@ func (d *device) get_alias() string {
 }
 
 
-// Modalias - GET
+func (d *device) set_modalias(i string) {
+    d.modalias = i
+}
+
 func (d *device) get_modalias() string {
     return d.modalias
 }
 
 
-// Name - GET
+func (d *device) set_name(i string) {
+    d.name = i
+}
+
 func (d *device) Get_name() string {
     return d.name
 }
 
 
-// Class - GET
+func (d *device) set_class(i uint32) {
+    d.class = i
+}
+
 func (d *device) get_class() uint32 {
     return d.class
 }
 
 
-// LE - GET
+func (d *local_device) set_le(i bool) {
+    d.le = i
+}
+
 func (d *local_device) get_le() bool {
     return d.le
 }
 
 
-// Discoverable - SET/GET
 func (d *local_device) set_discoverable(i bool) {
     d.discoverable = i
 }
@@ -107,13 +126,15 @@ func (d *local_device) get_discoverable() bool {
 }
 
 
-// Discovering - GET
+func (d *local_device) set_discovering(i bool) {
+    d.discovering = i
+}
+
 func (d *local_device) get_discovering() bool {
     return d.discovering
 }
 
 
-// Pairable - SET/GET
 func (d *local_device) set_pairable(i bool) {
     d.pairable = i
 }
@@ -123,7 +144,6 @@ func (d *local_device) get_pairable() bool {
 }
 
 
-// Powered - SET/GET
 func (d *local_device) set_powered(i bool) {
     d.powered = i
 }
@@ -133,7 +153,6 @@ func (d *local_device) get_powered() bool {
 }
 
 
-// DiscoverableTimeout - SET/GET
 func (d *local_device) set_discoverableTimeout(i uint32) {
     d.discoverableTimeout = i
 }
@@ -142,7 +161,7 @@ func (d *local_device) get_discoverableTimeout() uint32 {
     return d.discoverableTimeout
 }
 
-// PairableTimeout - SET/GET
+
 func (d *local_device) set_pairableTimeout(i uint32) {
     d.pairableTimeout = i
 }
@@ -152,7 +171,6 @@ func (d *local_device) get_pairableTimeout() uint32 {
 }
 
 
-// Blocked - SET/GET
 func (d *remote_device) set_blocked(i bool) {
     d.blocked = i
 }
@@ -162,31 +180,42 @@ func (d *remote_device) get_blocked() bool {
 }
 
 
-// Connected - SET/GET
+func (d *remote_device) set_connected(i bool) {
+    d.connected = i
+}
+
 func (d *remote_device) get_connected() bool {
     return d.connected
 }
 
 
-// LegacyPairing - GET
+func (d *remote_device) set_legacyPairing(i bool) {
+    d.legacyPairing = i
+}
+
 func (d *remote_device) get_legacyPairing() bool {
     return d.legacyPairing
 }
 
 
-// Paired - GET
+func (d *remote_device) set_paired(i bool) {
+    d.paired = i
+}
+
 func (d *remote_device) get_paired() bool {
     return d.paired
 }
 
 
-// ServicesResolved - GET
+func (d *remote_device) set_servicesResolved(i bool) {
+    d.servicesResolved = i
+}
+
 func (d *remote_device) get_servicesResolved() bool {
     return d.servicesResolved
 }
 
 
-// Trusted - SET/GET
 func (d *remote_device) set_trusted(i bool) {
     d.trusted = i
 }
@@ -196,31 +225,42 @@ func (d *remote_device) get_trusted() bool {
 }
 
 
-// ServiceData - GET
+func (d *remote_device) set_serviceData(i map[string][]uint8) {
+    d.serviceData = i
+}
+
 func (d *remote_device) get_serviceData() map[string][]uint8 {
     return d.serviceData
 }
 
 
-// ManufacturerData - GET
+func (d *remote_device) set_manufacturerData(i map[uint16][]uint8) {
+    d.manufacturerData = i
+}
+
 func (d *remote_device) Get_manufacturerData() map[uint16][]uint8 {
     return d.manufacturerData
 }
 
 
-// RSSI - GET
+func (d *remote_device) set_rssi(i int16) {
+    d.rssi = i
+}
+
 func (d *remote_device) get_rssi() int16 {
     return d.rssi
 }
 
 
-// TxPower - GET
+func (d *remote_device) set_txpower(i int16) {
+    d.txpower = i
+}
+
 func (d *remote_device) get_txpower() int16 {
     return d.txpower
 }
 
 
-// Adapter - SET/GET
 func (d *remote_device) set_adapter(i dbus.ObjectPath) {
     d.adapter = i
 }
@@ -230,19 +270,24 @@ func (d *remote_device) get_adapter() dbus.ObjectPath {
 }
 
 
-// Icon - GET
+func (d *remote_device) set_icon(i string) {
+    d.icon = i
+}
+
 func (d *remote_device) get_icon() string {
     return d.icon
 }
 
 
-// Appearance - SET/GET
+func (d *remote_device) set_appearance(i uint16) {
+    d.appearance = i
+}
+
 func (d *remote_device) get_appearance() uint16 {
     return d.appearance
 }
 
 
-// dbusobject - SET/GET
 func (d *device) dbusobject()  dbus.BusObject {
 
     conn, err := dbus.SystemBus()
